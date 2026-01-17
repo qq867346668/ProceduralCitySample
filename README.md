@@ -7,7 +7,7 @@
 
 ![Hero Showcase](docs/hero_rain_night.gif)
 
-> **View the full 4K High-Fidelity Showcase:** [https://www.youtube.com/watch?v=PF5UTIv-ig0] | [Bilibili Link Here]
+> **View the full 4K High-Fidelity Showcase:** [YouTube Link Here(https://www.youtube.com/watch?v=PF5UTIv-ig0)] | [Bilibili Link Here]
 
 ## 📖 Abstract
 
