@@ -22,7 +22,7 @@ Leveraging **10+ years of Graphics Programming experience (OpenGL/Vulkan)**, thi
 > **⚠️ Repository Note:** > Due to copyright restrictions and file size limits of high-fidelity assets (Quixel Megascans / City Sample), this repository hosts the **Core Logic, Source Code, Material Graphs, and Blueprints**. It is intended to demonstrate *system architecture* and *implementation logic*.
 
 ### 1. Advanced PCG & Graph Algorithms
-The city layout utilizes a **hierarchical, deterministic PCG framework**. I decoupled the "Placement Logic" from the "Generation Logic," creating a modular system that functions as an interactive level design tool.
+The city layout utilizes a **hierarchical, deterministic PCG framework**. It encompass from "Single Building Generation" to "Region Buildings Generation", creating a modular system that functions as an interactive level design tool.
 
 * **Layer 1: Spline-Based Road Network (Topology Solver)**
     * **Graph Logic:** Procedurally generates static mesh roads along user-defined splines.
@@ -41,3 +41,19 @@ The city layout utilizes a **hierarchical, deterministic PCG framework**. I deco
 * **Layer 4: Context-Aware Background Proxy:**
     * **Data Interaction:** The Volume-based generator for distant architecture samples the **Road Spline Data** to create a dynamic "Exclusion Zone."
     * **Result:** Simple cubes are automatically culled if they interfere with the playable road network, demonstrating **inter-graph communication** between the road and building systems.
+
+| **Spline Road Generation (Layer 1)** | **Region City Layout (Layer 3)** |
+| :---: | :---: |
+| ![Road Gen](docs/SplineRoad.gif) | ![City Gen](docs/SplineBuilding.gif) |
+| *Real-time intersection solving* | *Constraint-based building scattering* |
+
+<details>
+<summary><strong>🔍 Click to view PCG Graph Logic (Under the Hood)</strong></summary>
+
+> **Intersection Solver Logic:**
+> This snippet demonstrates the math used to calculate spline tangents and determine node valency (3-way vs 4-way) to spawn the correct mesh.
+>
+> ![PCG Graph Screenshot](docs/RoadPCG.png)
+> ![PCG Graph Screenshot](docs/BuildingsPCG.png)
+
+</details>
