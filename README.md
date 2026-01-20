@@ -67,9 +67,10 @@ I focused on fixing common rendering artifacts and using modern UE5 shading feat
     * **Auto-Material Logic:** The material automatically applies layers based on **Height** (Snow at peaks, Sand at low levels) and **Slope** (Rock on cliffs, Grass on flats).
     * **Fixing Texture Repetition:** Large terrains often look repetitive. I wrote a shader function that uses **Distance-Based UV Scaling** and **Macro Variation** (Noise) to break up the tiling pattern.
 
-* **Modular Rain Material Library:**
-    * **Component-Based Workflow:** Instead of a heavy "Uber Shader", I encapsulated effects (Rain Drops, Drips, Puddles, Wet Surface) into separate **Material Functions**.
-    * **Performance Strategy:** This allows for **selective integration**. For example, I only apply the "Wet Surface" function (which calculates physical porousness) to distant skyscrapers to save performance, while adding full details to close-up props.
+* **Hybrid Rain System (Materials & Niagara):**
+    * **Material Functions:** Encapsulated effects (Drops, Drips, Puddles, Wet Surface) into separate functions. This allows for selective integration (e.g., only applying "Wet Surface" to distant buildings) to save performance. 
+    * **Niagara Rain Simulation:** Implemented a dual-layer particle system for **Falling Drops** (volumetric streaks) and **Ground Splashes** (collision impacts).
+    * **Adaptive Splash Logic:** Material "RainDrops" aren't noticeable at long distances. To fix this, splash particles **scale up with camera distance** (starting >1m away) to ensure rain impacts remain visible in wide shots.
 
 * **Water & Dual-Layer Lightning System:**
     * **SingleLayerWater:** Used UE's `SingleLayerWater` shading model for the river. This gives accurate light scattering and depth absorption compared to basic translucent materials.
