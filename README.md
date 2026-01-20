@@ -68,7 +68,7 @@ I focused on fixing common rendering artifacts and using modern UE5 shading feat
     * **Fixing Texture Repetition:** Large terrains often look repetitive. I wrote a shader function that uses **Distance-Based UV Scaling** and **Macro Variation** (Noise) to break up the tiling pattern.
 
 * **Modular Rain Material Library:**
-    * **Component-Based Workflow:** Instead of a heavy "Uber Shader"， I encapsulated effects (Rain Drops, Drips, Puddles, Wet Surface) into separate **Material Functions**.
+    * **Component-Based Workflow:** Instead of a heavy "Uber Shader", I encapsulated effects (Rain Drops, Drips, Puddles, Wet Surface) into separate **Material Functions**.
     * **Performance Strategy:** This allows for **selective integration**. For example, I only apply the "Wet Surface" function (which calculates physical porousness) to distant skyscrapers to save performance, while adding full details to close-up props.
 
 * **Water & Dual-Layer Lightning System:**
@@ -78,3 +78,27 @@ I focused on fixing common rendering artifacts and using modern UE5 shading feat
 
 ![Daytime Water & Landscape](docs/Daytime_Water.gif)
 > *Figure: Real-time `SingleLayerWater` rendering and procedural landscape layers during the day cycle.*
+
+### 3. System Architecture & Performance
+A hybrid architecture utilizing **Blueprints for logic** and **C++ for engine optimization**.
+
+* **Extended Day/Night Cycle (Blueprint):**
+    * The standard `SunPosition` plugin only calculates solar angles. I built a **Manager System** that maps time-of-day to **Float Curves**.
+    * This allows artists to dynamically drive Skylight, Fog, and Sun Intensity, creating specific moods (e.g., "Golden Hour") that the default plugin cannot support.
+
+* **Skylight Optimization (C++ & Render Pipeline):**
+    * **Problem:** `RealTimeCapture` causes ~20ms frame spikes. Switching to manual `RecaptureSky` saves performance but creates visual inconsistencies because it **includes Volumetric Fog** (which Real-Time mode ignores).
+    * **Solution:** I investigated the engine source code and implemented an **`ISceneViewExtension`**. It disables Volumetric Fog *only* during the capture frame. This ensures the manual capture looks identical to the real-time version but with much better performance.
+
+* **World Partition HLOD Strategy:**
+    * **Hybrid HLODs:** Used **Approximation** for buildings (to fix Z-fighting/DrawCalls) and **Instancing** for small props.
+    * **Custom Shader:** Modified the default **HLOD Material** to support Emissive textures, solving the engine bug where distant cities lose their window lights at night.
+
+## 🤝 Credits & Acknowledgements
+
+* **3D Assets:** The high-fidelity buildings and props are sourced from the **Matrix Awakens City Sample** and **Quixel Megascans**.
+* **Core Focus:** This repository represents my original work on the **C++ Source Code, PCG Graphs, and Shader Logic**.
+* **Engine:** Built with **Unreal Engine 5.3**.
+
+---
+*Thank you for reviewing the technical documentation.*
