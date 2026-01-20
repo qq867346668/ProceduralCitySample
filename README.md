@@ -59,3 +59,22 @@ The city layout uses a **hierarchical and deterministic PCG system**. It covers 
 > ![PCG Graph Screenshot](docs/BuildingsPCG.png)
 
 </details>
+
+### 2. Rendering & Shader Pipeline (Tech Art)
+I focused on fixing common rendering artifacts and using modern UE5 shading features for correct physical results.
+
+* **Smart Landscape Materials:**
+    * **Auto-Material Logic:** The material automatically applies layers based on **Height** (Snow at peaks, Sand at low levels) and **Slope** (Rock on cliffs, Grass on flats).
+    * **Fixing Texture Repetition:** Large terrains often look repetitive. I wrote a shader function that uses **Distance-Based UV Scaling** and **Macro Variation** (Noise) to break up the tiling pattern.
+
+* **Modular Rain Material Library:**
+    * **Component-Based Workflow:** Instead of a heavy "Uber Shader"， I encapsulated effects (Rain Drops, Drips, Puddles, Wet Surface) into separate **Material Functions**.
+    * **Performance Strategy:** This allows for **selective integration**. For example, I only apply the "Wet Surface" function (which calculates physical porousness) to distant skyscrapers to save performance, while adding full details to close-up props.
+
+* **Water & Dual-Layer Lightning System:**
+    * **SingleLayerWater:** Used UE's `SingleLayerWater` shading model for the river. This gives accurate light scattering and depth absorption compared to basic translucent materials.
+    * **Procedural Bolt (Plane 1):** The lightning shape is rendered on a mesh plane using a dynamic material. A `Progress` parameter drives the animation at runtime to simulate the strike.
+    * **Atmospheric Flash (Plane 2):** To simulate the blinding flash, a second emissive plane is generated in front of the camera. A Blueprint updates its position every frame to ensure the flash is naturally **blocked by foreground objects**, creating realistic depth compared to a flat Post-Process exposure boost.
+
+![Daytime Water & Landscape](docs/Daytime_Water.gif)
+> *Figure: Real-time `SingleLayerWater` rendering and procedural landscape layers during the day cycle.*
