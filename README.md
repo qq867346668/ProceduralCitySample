@@ -98,7 +98,7 @@ A hybrid architecture utilizing **Blueprints for logic** and **C++ for engine op
 
 * **3D Assets:** The high-fidelity buildings and props are sourced from the **Matrix Awakens City Sample** and **Quixel Megascans**.
 * **Core Focus:** This repository represents my original work on the **C++ Source Code, PCG Graphs, and Shader Logic**.
-* **Engine:** Built with **Unreal Engine 5.3**.
+* **Engine:** Built with **Unreal Engine 5.5**.
 
 ---
 *Thank you for reviewing the technical documentation.*
