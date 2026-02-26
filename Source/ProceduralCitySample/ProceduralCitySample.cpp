@@ -2,6 +2,18 @@
 
 #include "ProceduralCitySample.h"
 #include "Modules/ModuleManager.h"
+#include "ShaderCore.h" // must include
+#include "Misc/Paths.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, ProceduralCitySample, "ProceduralCitySample" );
+class FMyProjectModule : public FDefaultGameModuleImpl
+{
+public:
+    virtual void StartupModule() override
+    {
+        FString ShaderDirectory = FPaths::Combine(FPaths::ProjectDir(), TEXT("Shaders"));
+        AddShaderSourceDirectoryMapping(TEXT("/Project/MyShaders"), ShaderDirectory);
+    }
+};s
+
+IMPLEMENT_PRIMARY_GAME_MODULE( FMyProjectModule, ProceduralCitySample, "ProceduralCitySample" );
  
