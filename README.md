@@ -91,6 +91,11 @@ A hybrid architecture utilizing **Blueprints for logic** and **C++ for engine op
     * **Problem:** `RealTimeCapture` causes ~20ms frame spikes. Switching to manual `RecaptureSky` saves performance but creates visual inconsistencies because it **includes Volumetric Fog** (which Real-Time mode ignores).
     * **Solution:** I investigated the engine source code and implemented an **`ISceneViewExtension`**. It disables Volumetric Fog *only* during the capture frame. This ensures the manual capture looks identical to the real-time version but with much better performance.
 
+* **Low-Level Custom Mesh Rendering (C++ & Render Thread):**
+    * **Custom Component & Proxy:** Developed a custom `UMeshComponent` and `FPrimitiveSceneProxy` from scratch to inject arbitrary mesh data directly into the render pipeline.
+    * **Dual Rendering Paths:** Implemented both `GetDynamicMeshElements` (for real-time updating geometry) and `DrawStaticElements` (for cached static geometry) to ensure maximum performance flexibility.
+    * **Custom Vertex Factory:** Authored a custom `FVertexFactory` to define specialized vertex buffer layouts. This bypasses standard UE vertex format constraints, reducing memory bandwidth and allowing highly customized shader data bindings.
+
 * **World Partition HLOD Strategy:**
     * **Hybrid HLODs:** Used **Approximation** for buildings (to fix Z-fighting/DrawCalls) and **Instancing** for small props.
     * **Custom Shader:** Modified the default **HLOD Material** to support Emissive textures, solving the engine bug where distant cities lose their window lights at night.
