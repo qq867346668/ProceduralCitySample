@@ -98,7 +98,7 @@ A hybrid architecture utilizing **Blueprints for logic** and **C++ for engine op
 
 * **World Partition HLOD Strategy:**
     * **Hybrid HLODs:** Used **Approximation** for buildings (to fix Z-fighting/DrawCalls) and **Instancing** for small props.
-    * **Custom Shader:** Modified the default **HLOD Material** to support Emissive textures, solving the engine bug where distant cities lose their window lights at night.
+    * **Custom Shader:** Modified the default HLOD Material to support dynamic Emissive textures. I injected a Material Parameter Collection (MPC), allowing the Day/Night manager to globally toggle city window lights at runtime.
 
 ## 🤝 Credits & Acknowledgements
 
